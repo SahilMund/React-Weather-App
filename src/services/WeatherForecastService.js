@@ -1,13 +1,16 @@
-import { WEATHER_API_BASE_URL, WEATHER_API_KEY } from "./constants";
+import { WEATHER_API_BASE_URL, WEATHER_API_KEY, fetchAPI } from "./constants";
 
+/**
+ * Fetches the weather forecast details for a given location based on the latitude, longitude and units provided
+ * The `lat` and `lon` parameters are used to specify the location.
+ * The `units` parameter is used to specify the units (e.g. 'metric' for Celsius).
+ * Returns a promise that resolves with the JSON response from the API.
+ */
 export const fetchWeatherForecastDetails = async (lat, lon, units) => {
-  const weatherForecastResponse = await fetch(
+  return fetchAPI(
     `${WEATHER_API_BASE_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=${units}`
   );
-
-  return weatherForecastResponse.json();
 };
-
 
 export const filterForecastList = (forecast) => {
   const weatherData = forecast.list;
@@ -37,7 +40,5 @@ export const filterForecastList = (forecast) => {
     top1Data.push(maxTempData);
   });
 
-
-  console.log(top1Data);
-  return top1Data; // outputs: [{ date: '2023-04-01', time: '12:00', temperature: 25, humidity: 60 }, { date: '2023-04-02', time: '12:00', temperature: 23, humidity: 55 }, ...]
+  return top1Data;
 };

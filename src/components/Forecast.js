@@ -1,26 +1,27 @@
 import React, { useEffect } from "react";
 
 import M from "materialize-css";
-import { fetchWeatherAPIIcon } from "../../services";
+import { fetchWeatherAPIIcon } from "../services";
+import { useSelector } from "react-redux";
 
-const Forecast = ({ data }) => {
-  
-    useEffect(()=>{
-        const elem = document.querySelector('.collapsible');
+const Forecast = () => {
+  const { forecast } = useSelector((state) => state.weather);
+
+  useEffect(() => {
+    const elem = document.querySelector(".collapsible");
     const options = {
-      accordion: false
+      accordion: false,
     };
     M.Collapsible.init(elem, options);
-  },[]);
-    
+  }, []);
 
   const formatDateToDay = (dt) => {
     const date = new Date(dt);
     return date.toLocaleDateString("en-US", { weekday: "long" });
   };
   return (
-    <ul className="collapsible expandable">
-      {data.forecastData.slice(1, 6).map((item, idx) => (
+    <ul className="collapsible expandable popout">
+      {forecast.filteredForeCastData.map((item, idx) => (
         <li key={idx}>
           <div className="collapsible-header">
             <img
@@ -28,7 +29,7 @@ const Forecast = ({ data }) => {
               className="icon-small"
               alt="weather"
             />
-            
+
             <div className="daily-item">
               <label className="day">{formatDateToDay(item.dt_txt)}</label>
               <label className="description">

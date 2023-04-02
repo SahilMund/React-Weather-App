@@ -1,37 +1,41 @@
 import React from 'react'
-import "./weather.css";
-import { fetchWeatherAPIIcon } from '../../services/';
+import "../styles/weather.css";
+import { fetchWeatherAPIIcon } from '../services';
+import { useSelector } from 'react-redux';
+import { getTemperatureColor } from '../services/constants';
 
-const Weather = ({data}) => {
+const Weather = () => {
+
+  const { units, currentWeather  } = useSelector((state) => state.weather);
 
   const {
     city,
-    lat,
-    lon,
+    // lat,
+    // lon,
     temp,
     feels_like,
-    temp_min,
-    temp_max,
+    // temp_min,
+    // temp_max,
     humidity,
     name,
-    date,
-    country,
-    sunrise,
-    sunset,
-    weatherStatus,
+    // date,
+    // country,
+    // sunrise,
+    // sunset,
+    // weatherStatus,
     pressure,
     icon,
-    units,
     speed,
     weatherDescription
-  } = data;
+  } = currentWeather;
 
+  const c = 'C';
  
   return (
-    <div className='app__weather-container'>
+    <div className='app__weather-container' style={{backgroundColor : getTemperatureColor(temp,'C')}}>
      <div className="top">
         <div>
-          <p className="city">{city}</p>
+          <p className="city">{`${name} ${city ? ', '+city : ' '}`}</p>
           <p className="weather-description">{weatherDescription}</p>
         </div>
         <img

@@ -1,59 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import "./App.css";
-import { Forecast, Search, TimeAndButton, Weather } from "./components";
+import { Forecast, Search, TimeAndButton, Weather, Weathersss } from "./components";
 import {
-  fetchWeatherDetails,
-  fetchWeatherForecastDetails,
-  getFormattedWeatherData,
-  filterForecastList
-} from "./services";
+  fetchCurrentWeather,
+  fetchWeatherForeCast,
+} from "./redux/actions/weatherAction";
 
 function App() {
-  const [currentWeather, setCurrentWeather] = useState(null);
-  const [forecast, setForecast] = useState(null);
-  const [units, setUnits] = useState("metric");
-  const [search, setSearch] = useState(null);
+  // using useDispatch hook to get a reference to the dispatch function to be able to dispatch actions to update the state.
+  const dispatch = useDispatch();
+
+  // the useSelector hook is used to extract data from the Redux store state
+  const { search } = useSelector((state) => state.city);
+  const { units, currentWeather, forecast } = useSelector(
+    (state) => state.weather
+  );
+
+  // useEffect to fetch the current weather and forecast when the search or units changes.
 
   useEffect(() => {
-    const handleOnSearchChange = async (searchData) => {
-      const [lat, lon] = searchData.value.split(" ");
-
-      const weatherDetails = await fetchWeatherDetails(lat, lon, units).then(
-        getFormattedWeatherData
-      );
-      //console.log(weatherDetails);
-      setCurrentWeather({ city: searchData.label, units, ...weatherDetails });
-
-      const weatherForecastDetails = await fetchWeatherForecastDetails(
-        lat,
-        lon,
-        units
-      );
-
-      const forecastData = filterForecastList(weatherForecastDetails);
-
-
-      
-      setForecast({ city: searchData.label, units, ...weatherForecastDetails, forecastData });
+    const handleOnSearchChange = () => {
+      // if (!search && navigator.geolocation) {
+      //   navigator.geolocation.getCurrentPosition((position) => {
+      //     const { latitude, longitude } = position.coords;
+      //     dispatch(fetchCurrentWeather(latitude, longitude));
+      //     dispatch(fetchWeatherForeCast(latitude, longitude));
+      //   });
+      // } else {
+      dispatch(fetchCurrentWeather(0, 0)); // Dispatch action to fetch current weather.
+      dispatch(fetchWeatherForeCast(0, 0)); // Dispatch action to fetch forecast.
+      // }
     };
 
-    if(search){
-      handleOnSearchChange(search);
-
-    }
+    console.log(search);
+    // If there is a search value, then only call the search change handler.
+    search.length !==0 && handleOnSearchChange();
   }, [search, units]);
 
   return (
     <div className="app">
-      <Search setSearch={setSearch} search={search} />
+      <Search />
 
       {currentWeather && (
         <>
-          <TimeAndButton setUnits={setUnits} weather={currentWeather} />{" "}
-          <Weather data={currentWeather} />
+          <TimeAndButton />
+          <Weathersss />
         </>
       )}
-      {forecast && <Forecast data={forecast} />}
+      {forecast && <Forecast />}
     </div>
   );
 }
