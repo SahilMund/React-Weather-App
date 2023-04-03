@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import "./App.css";
-import { Forecast, Search, TimeAndButton, Weather, Weathersss } from "./components";
+import { Search, Weather } from "./components";
 import {
   fetchCurrentWeather,
   fetchWeatherForeCast,
 } from "./redux/actions/weatherAction";
+
+import "./styles/App.css";
 
 function App() {
   // using useDispatch hook to get a reference to the dispatch function to be able to dispatch actions to update the state.
@@ -18,38 +19,43 @@ function App() {
     (state) => state.weather
   );
 
-  // useEffect to fetch the current weather and forecast when the search or units changes.
+  // Function to get the weather of current location
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const q = {
+          type: "CURRENT_LOCATION_WEATHER",
+          data: { latitude, longitude },
+        };
+        dispatch(fetchCurrentWeather(q));
+        dispatch(fetchWeatherForeCast(q));
+      });
+    }
+  };
 
+  // useEffect to fetch the current weather and forecast when the search or units changes.
   useEffect(() => {
     const handleOnSearchChange = () => {
-      // if (!search && navigator.geolocation) {
-      //   navigator.geolocation.getCurrentPosition((position) => {
-      //     const { latitude, longitude } = position.coords;
-      //     dispatch(fetchCurrentWeather(latitude, longitude));
-      //     dispatch(fetchWeatherForeCast(latitude, longitude));
-      //   });
-      // } else {
-      dispatch(fetchCurrentWeather(0, 0)); // Dispatch action to fetch current weather.
-      dispatch(fetchWeatherForeCast(0, 0)); // Dispatch action to fetch forecast.
-      // }
+      const q = { type: "SEARCHED_LOCATION_WEATHER", data: {} };
+
+      dispatch(fetchCurrentWeather(q)); // Dispatch action to fetch current weather.
+      dispatch(fetchWeatherForeCast(q)); // Dispatch action to fetch forecast.
     };
 
-    console.log(search);
     // If there is a search value, then only call the search change handler.
-    search.length !==0 && handleOnSearchChange();
+    search.length !== 0 && handleOnSearchChange();
   }, [search, units]);
+
+  useEffect(() => {
+    !search && getCurrentLocation();
+  }, []);
 
   return (
     <div className="app">
       <Search />
 
-      {currentWeather && (
-        <>
-          <TimeAndButton />
-          <Weathersss />
-        </>
-      )}
-      {forecast && <Forecast />}
+      {currentWeather && forecast && <Weather />}
     </div>
   );
 }

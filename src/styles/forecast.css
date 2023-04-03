@@ -1,0 +1,30 @@
+.tab-icon {
+  width: 25px;
+  height: 25px;
+}
+
+
+
+.weather-details-container {
+
+  display: flex;
+  justify-content: center;
+}
+
+.weather-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.detail span:first-child {
+  margin-right: 10px;
+}

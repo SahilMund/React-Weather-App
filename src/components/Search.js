@@ -8,12 +8,11 @@ const Search = () => {
   const { cityDetails, search } = useSelector((state) => state.city);
   const dispatch = useDispatch();
 
+  // defining function to used by react-select component to show some of the city
   const loadOptions = async (inputValue) => {
-
-    
-    // const cityDetails = await fetchCityDetails(inputValue);
+    // dispatching an action to fetch the cities
     dispatch(fetchCities(inputValue));
-    console.log(cityDetails);
+
     const options = cityDetails.data.map((city) => {
       return {
         value: `${city.latitude} ${city.longitude}`,
@@ -26,6 +25,7 @@ const Search = () => {
     };
   };
 
+  // handling the search input
   const handleOnChange = (searchData) => {
     dispatch(manageSearchInput(searchData));
   };

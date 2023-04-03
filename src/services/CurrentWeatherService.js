@@ -6,8 +6,6 @@ import {
   fetchAPI,
 } from "./constants";
 
-
-
 /**
  * Fetches weather details from the OpenWeatherMap API based on latitude and longitude coordinates.
  * The `lat` and `lon` parameters are used to specify the location.
@@ -16,7 +14,6 @@ import {
  */
 
 export const fetchWeatherDetails = async (lat, lon, units) => {
-
   return fetchAPI(
     `${WEATHER_API_BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=${units}`
   );

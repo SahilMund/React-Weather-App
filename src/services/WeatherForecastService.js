@@ -12,12 +12,11 @@ export const fetchWeatherForecastDetails = async (lat, lon, units) => {
   );
 };
 
+// Function to filter out the forecast data for the next five days
 export const filterForecastList = (forecast) => {
   const weatherData = forecast.list;
-  // First, group the data by date
-  // Assume that the weatherData array contains weather data for multiple dates and times
 
-  // First, group the weather data by date
+  //  grouping the weather data by date
   const dataByDate = {};
   weatherData.forEach((data) => {
     const date = data.dt_txt.split(" ")[0]; // Extract the date part from the dt_txt field

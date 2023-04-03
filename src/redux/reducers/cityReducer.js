@@ -1,25 +1,22 @@
 import { CityActionTypes } from "../constants/action-types";
 
-// Taking data from localStorage and setting it as initial value for the state
+// defining initial state for city Reducer
 const initialState = {
-    search : '',
-    cityDetails : {}
- };
+  search: "",
+  cityDetails: {},
+};
 
-/* This reducer updates the city state with the search results
-It responds to the SET_CITY action type and sets the city, state, and country properties
-
+/* This reducer updates the city Details and the search results
+It responds to the FETCH_ALL_CITY action type and sets the cityDetails properties.
+It responds to the MANAGE_SEARCH_INPUT action type and sets the search data.
 */
 export const cityReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case CityActionTypes.FETCH_ALL_CITY:
-      // Fetch products
       return { ...state, cityDetails: payload };
     case CityActionTypes.MANAGE_SEARCH_INPUT:
-      // Create a product with id equals to the length of the products array + 1
-      
-      return { ...state, search : payload };
-   
+      return { ...state, search: payload };
+
     default:
       return state;
   }
