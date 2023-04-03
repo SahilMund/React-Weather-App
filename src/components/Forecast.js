@@ -45,7 +45,7 @@ const Forecast = () => {
                 <p className="mb-0"> {formatDateToDay(item.dt_txt)}</p>
                 <img
                   //   src={fetchWeatherAPIIcon(item.weather[0].icon)}
-                  src={`/icons/${item.weather[0].icon}.png`}
+                  src={`${process.env.PUBLIC_URL}/icons/${item.weather[0].icon}.png`}
                   alt="Tab icon"
                   className="tab-icon"
                 />

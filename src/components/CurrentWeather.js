@@ -53,7 +53,7 @@ const CurrentWeather = () => {
           </span>
         </p>
         <img
-          src={`/icons/${currentWeather.icon}.png`}
+          src={`${process.env.PUBLIC_URL}/icons/${currentWeather.icon}.png`}
           alt="Tab icon"
           className="weather-tab-icons"
         />

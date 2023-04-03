@@ -1,9 +1,9 @@
 # React Weather App
 
 ## Description :-
-```
+<p>
 This project involves creating a weather app using React that allows users to search for a city and view current weather conditions and a five-day forecast. The app will integrate with one or more open weather APIs to retrieve weather data. Users will be able to enter a city name in the search bar to retrieve the current temperature, weather icon, and description for that city. The app will also display a five-day forecast that includes temperature and weather icons. The goal is to create a visually appealing and functional weather app that provides users with quick access to weather information for any city they choose.
-```
+<p>
 
 
 ## Features :-
@@ -35,8 +35,7 @@ https://api.openweathermap.org/data/2.5
 ## Deployed URL :-
 
 ```
-
-
+https://sahilmund.github.io/React-Weather-App/
 ```
 
 ## Installation :-
